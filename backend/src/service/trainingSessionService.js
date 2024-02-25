@@ -3,10 +3,35 @@ import moment from "moment";
 let getAll = (params) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let trainingSession = await db.TrainingSession.findAll({});
+            let query = `
+            SELECT TS.*, 
+                CASE 
+                    WHEN COUNT(Ex.id) > 0 
+                    THEN JSON_AGG(
+                        CASE 
+                            WHEN Ex.id IS NOT NULL 
+                            THEN json_build_object(
+                                'id', Ex.id,
+                                'excercise_name', Ex.excercise_name,
+                                'set_info', Ex.set_info,
+                                'set_number', Ex.set_number
+                            )
+                        END
+                    )
+                    ELSE '[]'::json
+                END AS excercises
+            FROM "TrainingSessions" TS
+            LEFT JOIN "Excercises" Ex ON Ex.session_id = TS.id
+            GROUP BY TS.id
+            `;
+
+            let result = await db.sequelize.query(query, {
+                type: db.sequelize.QueryTypes.SELECT,
+            });
+
             resolve({
                 errCode: 0,
-                data: trainingSession,
+                data: result,
             });
         } catch (error) {
             reject(error);

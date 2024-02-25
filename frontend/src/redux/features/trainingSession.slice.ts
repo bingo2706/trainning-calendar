@@ -2,11 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import { TrainingSessionType } from "../../types/training-session.type";
 import { PayloadType } from "../../types/share.type";
 
+type StatusTrainingSessionModal = {
+    addTrainingSession: boolean;
+};
 export type TrainingSessionState = {
     trainingSessions: TrainingSessionType[];
+    selectedTrainingSession?: TrainingSessionType;
+    statusTrainingSessionModal: StatusTrainingSessionModal;
 };
 const initialState: TrainingSessionState = {
     trainingSessions: [],
+    statusTrainingSessionModal: {
+        addTrainingSession: false,
+    },
 };
 export const trainingSessionSlice = createSlice({
     name: "trainingSessionSlice",
@@ -15,6 +23,22 @@ export const trainingSessionSlice = createSlice({
         getAllTrainingSession: (state) => {
             return {
                 ...state,
+            };
+        },
+        toggleTrainingSessionModal: (
+            state,
+            payload: PayloadType<{
+                key: keyof StatusTrainingSessionModal;
+                status: boolean;
+            }>
+        ) => {
+            const { key, status } = payload.payload;
+            return {
+                ...state,
+                statusTrainingSessionModal: {
+                    ...state.statusTrainingSessionModal,
+                    [key]: status,
+                },
             };
         },
         setTrainingSessions: (
@@ -34,11 +58,22 @@ export const trainingSessionSlice = createSlice({
                 ...state,
             };
         },
+        selectTrainingSession: (
+            state,
+            payload: PayloadType<TrainingSessionType | undefined>
+        ) => {
+            return {
+                ...state,
+                selectedTrainingSession: payload.payload,
+            };
+        },
     },
 });
 export const {
     getAllTrainingSession,
     setTrainingSessions,
     updatePositionTrainingSession,
+    selectTrainingSession,
+    toggleTrainingSessionModal,
 } = trainingSessionSlice.actions;
 export default trainingSessionSlice.reducer;

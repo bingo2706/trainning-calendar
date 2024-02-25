@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Button, Stack, Typography, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import CalendarColumn from "./CalendarColumn";
@@ -8,14 +8,11 @@ import { TrainingSessionType } from "../types/training-session.type";
 import { useDispatch } from "react-redux";
 import {
     getAllTrainingSession,
+    toggleTrainingSessionModal,
     updatePositionTrainingSession,
 } from "../redux/features/trainingSession.slice";
 import { useAppSelector } from "../redux/store";
-import {
-    getCurrentWeekDays,
-    swapPositions,
-    updatePositions,
-} from "../utils/helper";
+import { getCurrentWeekDays, updatePositions } from "../utils/helper";
 import {
     DragDropContext,
     Droppable,
@@ -23,6 +20,10 @@ import {
     DropResult,
 } from "react-beautiful-dnd";
 import moment from "moment";
+
+import AddExcerciseModal from "./AddExcerciseModal";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddTrainingSessionModal from "./AddTrainingSessionModal";
 const CalendarContainer = styled(Box)(({ theme }) => ({
     maxWidth: "1440px",
     margin: "100px auto",
@@ -125,7 +126,6 @@ export default function Calendar() {
                 isDayChange,
             })
         );
-        console.log({ sourceList, destinationList, isDayChange });
     };
     useEffect(() => {
         dispatch(getAllTrainingSession());
@@ -137,6 +137,23 @@ export default function Calendar() {
     }, [trainingSessions]);
     return (
         <CalendarContainer>
+            <Stack direction={"row"} justifyContent={"flex-end"}>
+                <Button
+                    startIcon={<AddCircleIcon />}
+                    variant="contained"
+                    sx={{ marginBottom: "20px" }}
+                    onClick={() =>
+                        dispatch(
+                            toggleTrainingSessionModal({
+                                key: "addTrainingSession",
+                                status: true,
+                            })
+                        )
+                    }
+                >
+                    Add Training Session
+                </Button>
+            </Stack>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Board>
                     {daysArr?.length > 0 &&
@@ -169,6 +186,8 @@ export default function Calendar() {
                         })}
                 </Board>
             </DragDropContext>
+            <AddExcerciseModal />
+            <AddTrainingSessionModal />
         </CalendarContainer>
     );
 }

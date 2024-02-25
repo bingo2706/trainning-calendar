@@ -14,7 +14,7 @@ module.exports = {
             session_id: {
                 type: Sequelize.INTEGER,
             },
-            exercise_name: {
+            excercise_name: {
                 type: Sequelize.STRING,
             },
             set_info: {
