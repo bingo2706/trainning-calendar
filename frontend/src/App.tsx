@@ -2,15 +2,14 @@ import "./App.css";
 import { withToast } from "./hoc/withToast";
 
 import Calendar from "./feature/Calendar";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import Header from "./components/Header";
+import { ReduxProvider } from "./redux/ReduxProvider";
+
 function App() {
     return (
         <>
-            <DndProvider backend={HTML5Backend}>
+            <ReduxProvider>
                 <Calendar />
-            </DndProvider>
+            </ReduxProvider>
         </>
     );
 }

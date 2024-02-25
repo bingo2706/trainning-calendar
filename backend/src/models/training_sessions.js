@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             session_date: DataTypes.DATE,
             workout_name: DataTypes.STRING,
+            position: DataTypes.INTEGER,
         },
         {
             sequelize,

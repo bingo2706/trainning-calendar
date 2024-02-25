@@ -59,4 +59,23 @@ let deleteById = async (req, res) => {
         });
     }
 };
-module.exports = { getAll, create, update, getDetailById, deleteById };
+let updatePosition = async (req, res) => {
+    try {
+        let data = await trainingSessionService.updatePosition(req.body);
+        return res.status(200).json(data);
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: "Error from server",
+        });
+    }
+};
+module.exports = {
+    getAll,
+    create,
+    update,
+    getDetailById,
+    deleteById,
+    updatePosition,
+};

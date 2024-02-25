@@ -17,7 +17,9 @@ module.exports = {
             workout_name: {
                 type: Sequelize.STRING,
             },
-
+            position: {
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
