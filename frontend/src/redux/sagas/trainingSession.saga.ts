@@ -1,7 +1,9 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
+    createTrainingSession,
     getAllTrainingSession,
     setTrainingSessions,
+    toggleTrainingSessionModal,
     updatePositionTrainingSession,
 } from "../features/trainingSession.slice";
 import { TrainingSessionType } from "../../types/training-session.type";
@@ -42,10 +44,37 @@ function* updatePositionTrainingSessionHandle(
         console.log(error);
     }
 }
+function* createTrainingSessionHandle(
+    payload: PayloadType<Partial<TrainingSessionType>>
+) {
+    try {
+        const response: GetApiResponseType<TrainingSessionType> = yield call(
+            api,
+            {
+                url: "/api/training-session",
+                method: "post",
+                data: payload.payload,
+            }
+        );
+        if (response.errCode === 0) {
+            toast.success("Tạo phiên tập thành công");
+            yield put(getAllTrainingSession());
+            yield put(
+                toggleTrainingSessionModal({
+                    key: "addTrainingSession",
+                    status: false,
+                })
+            );
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 export function* trainingSessionSaga() {
     yield takeLatest(getAllTrainingSession, getAllTrainingSessionHandle);
     yield takeLatest(
         updatePositionTrainingSession,
         updatePositionTrainingSessionHandle
     );
+    yield takeLatest(createTrainingSession, createTrainingSessionHandle);
 }

@@ -3,14 +3,18 @@ import CustomModal from "../components/Modal";
 import { Controller, useForm } from "react-hook-form";
 import { useAppSelector } from "../redux/store";
 import { useDispatch } from "react-redux";
-import { toggleTrainingSessionModal } from "../redux/features/trainingSession.slice";
+import {
+    createTrainingSession,
+    toggleTrainingSessionModal,
+} from "../redux/features/trainingSession.slice";
 import { TrainingSessionType } from "../types/training-session.type";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { trainingSessionValidationSchema } from "../schema/trainingSessionSchema";
 import { isEmpty } from "lodash";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useEffect } from "react";
-
+import { formatDateField } from "../utils/helper";
+import moment from "moment";
 const defaultParamTrainingSession: Partial<TrainingSessionType> = {
     workout_name: "",
     session_date: new Date(),
@@ -32,7 +36,16 @@ export default function AddTrainingSessionModal() {
     );
     const { statusTrainingSessionModal } = trainingSessionState;
     const dispatch = useDispatch();
-    const handleSave = (data: Partial<TrainingSessionType>) => {};
+    const handleSave = (data: Partial<TrainingSessionType>) => {
+        dispatch(
+            createTrainingSession({
+                ...data,
+                session_date: moment(data.session_date).format(
+                    "YYYY-MM-DD"
+                ) as any,
+            })
+        );
+    };
     useEffect(() => {
         if (!statusTrainingSessionModal.addTrainingSession) {
             reset(defaultParamTrainingSession);

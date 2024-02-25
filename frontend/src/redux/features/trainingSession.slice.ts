@@ -67,6 +67,14 @@ export const trainingSessionSlice = createSlice({
                 selectedTrainingSession: payload.payload,
             };
         },
+        createTrainingSession: (
+            state,
+            payload: PayloadType<Partial<TrainingSessionType>>
+        ) => {
+            return {
+                ...state,
+            };
+        },
     },
 });
 export const {
@@ -75,5 +83,6 @@ export const {
     updatePositionTrainingSession,
     selectTrainingSession,
     toggleTrainingSessionModal,
+    createTrainingSession,
 } = trainingSessionSlice.actions;
 export default trainingSessionSlice.reducer;

@@ -34,3 +34,10 @@ export const updatePositions = (array) => {
         position: index,
     }));
 };
+export const formatDateField = (field: any) => {
+    if (field) {
+        return field instanceof Date ? field.toISOString() : field;
+    } else {
+        return undefined;
+    }
+};
