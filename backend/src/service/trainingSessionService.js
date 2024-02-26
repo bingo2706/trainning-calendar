@@ -122,40 +122,49 @@ let updatePosition = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             const { sourceList, destinationList, isDayChange } = data;
-            let result;
-            sourceList.forEach(async (item) => {
-                await db.TrainingSession.update(
-                    { ...item },
-                    {
-                        where: {
-                            id: item.id,
-                        },
-                    }
-                );
-            });
+            let updatePromises = [];
 
-            if (isDayChange) {
-                destinationList.forEach(async (item) => {
-                    await db.TrainingSession.update(
+            sourceList.forEach((item) => {
+                updatePromises.push(
+                    db.TrainingSession.update(
                         { ...item },
                         {
                             where: {
                                 id: item.id,
                             },
                         }
+                    )
+                );
+            });
+
+            if (isDayChange) {
+                destinationList.forEach((item) => {
+                    updatePromises.push(
+                        db.TrainingSession.update(
+                            { ...item },
+                            {
+                                where: {
+                                    id: item.id,
+                                },
+                            }
+                        )
                     );
                 });
             }
 
+            // Đợi cho tất cả các promise trong mảng updatePromises thực hiện xong
+            await Promise.all(updatePromises);
+
             resolve({
                 errCode: 0,
-                data: result,
+                data: "Update successful",
             });
         } catch (error) {
             reject(error);
         }
     });
 };
+
 module.exports = {
     getAll,
     create,

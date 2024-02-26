@@ -1,6 +1,7 @@
 version: "3.8"
 services:
     database-postgres:
+        container_name: postgres-container
         image: postgres
         restart: always
         environment:
@@ -12,6 +13,7 @@ services:
             - 5432
 
     backend:
+        container_name: backend-container
         build:
             context: ../backend
             dockerfile: Dockerfile
@@ -23,6 +25,7 @@ services:
         ports:
             - 8003:8003
     nginx:
+        container_name: frontend-container
         build:
             context: ../frontend
         ports:
