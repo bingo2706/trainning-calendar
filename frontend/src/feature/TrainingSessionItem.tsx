@@ -51,6 +51,11 @@ export default function TrainingSessionItem({
         dispatch(toggleExcerciseModal({ key: "addExcercise", status: true }));
         dispatch(selectTrainingSession(trainingSession));
     };
+    const textEllipsis = {
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+    };
     return (
         <Container {...props}>
             <Stack
@@ -81,6 +86,7 @@ export default function TrainingSessionItem({
                                 variant="h6"
                                 fontSize={"1rem"}
                                 textAlign={"end"}
+                                sx={{ ...textEllipsis }}
                             >
                                 {item.excercise_name}
                             </Typography>
@@ -88,6 +94,7 @@ export default function TrainingSessionItem({
                                 display={"flex"}
                                 justifyContent={"space-between"}
                                 direction={"row"}
+                                gap={"6px"}
                             >
                                 <Typography
                                     variant="subtitle1"
@@ -101,6 +108,7 @@ export default function TrainingSessionItem({
                                     variant="subtitle1"
                                     color={"#747f88"}
                                     fontSize={"0.875rem"}
+                                    sx={{ ...textEllipsis }}
                                 >
                                     {item.set_info}
                                 </Typography>
