@@ -13,9 +13,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useDispatch } from "react-redux";
 import { toggleExcerciseModal } from "../redux/features/excercise.slice";
 import { selectTrainingSession } from "../redux/features/trainingSession.slice";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 const Container = styled(Box)(({ theme }) => ({
     border: "2px solid #e7e8eb",
-    backgroundColor: "#fbfafa",
+    backgroundColor: "#fff",
     borderRadius: "8px",
     padding: "6px 4px 2px 4px",
     cursor: "pointer",
@@ -52,18 +53,25 @@ export default function TrainingSessionItem({
     };
     return (
         <Container {...props}>
-            <Typography
-                variant="subtitle1"
-                sx={{
-                    color: "#7975ca",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                }}
-                fontWeight={600}
+            <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                gap={"4px"}
             >
-                {trainingSession.workout_name}
-            </Typography>
+                <Typography
+                    variant="subtitle1"
+                    sx={{
+                        color: "#7975ca",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                    }}
+                    fontWeight={600}
+                >
+                    {trainingSession.workout_name}
+                </Typography>
+                <MoreHorizIcon sx={{ color: "#747f88" }} />
+            </Stack>
             <ExcerciseList>
                 {excercises &&
                     excercises?.length > 0 &&
@@ -110,7 +118,7 @@ export default function TrainingSessionItem({
                     sx={{ padding: "2px", width: "fit-content" }}
                     onClick={handleClickAddExcercise}
                 >
-                    <AddCircleIcon />
+                    <AddCircleIcon sx={{ color: "#747f88" }} />
                 </IconButton>
             </Stack>
         </Container>

@@ -28,6 +28,8 @@ export default function CalendarColumn({
     subtitle: string;
     props: any;
 }) {
+    const today = new Date().getDate();
+
     return (
         <Box
             {...props}
@@ -44,10 +46,10 @@ export default function CalendarColumn({
             </Typography>
             <ContentWrapper>
                 <Typography
-                    color={"#747f88"}
+                    color={today == +subtitle ? "#7975ca" : "#747f88"}
                     variant="subtitle1"
                     marginBottom={"4px"}
-                    fontWeight={500}
+                    fontWeight={today == +subtitle ? 600 : 500}
                 >
                     {subtitle}
                 </Typography>
